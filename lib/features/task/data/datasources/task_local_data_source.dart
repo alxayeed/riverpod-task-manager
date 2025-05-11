@@ -11,7 +11,15 @@ class TaskLocalDataSource {
 
   TaskLocalDataSource._internal();
 
-  Future<void> init() async {
+  static Future<TaskLocalDataSource> create() async {
+    final instance = _instance;
+    await instance._init();
+    return instance;
+
+  }
+
+
+  Future<void> _init() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, 'tasks.db');
 
@@ -21,7 +29,7 @@ class TaskLocalDataSource {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         description TEXT,
-        isDone INTEGER
+        is_done INTEGER
       )
       ''');
     });

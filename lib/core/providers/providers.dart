@@ -13,23 +13,21 @@ import '../../features/task/domain/usecases/update_task_usecase.dart';
 // Data source provider
 final taskLocalDataSourceProvider = Provider<TaskLocalDataSource>((ref) {
   final dataSource = TaskLocalDataSource();
-  dataSource.init();
   return dataSource;
 });
 
-// Repository provider
 final taskRepositoryProvider = Provider<TaskRepository>((ref) {
   final dataSource = ref.watch(taskLocalDataSourceProvider);
   return TaskRepositoryImpl(localDataSource: dataSource);
 });
 
 // Use case providers
-final getTasksProvider = Provider<GetTasksUseCase>((ref) {
-  final repository = ref.watch(taskRepositoryProvider);
-  return GetTasksUseCase(repository);
+final getTasksUseCaseProvider = Provider<GetTasksUseCase>((ref) {
+  final taskRepository = ref.watch(taskRepositoryProvider);
+  return GetTasksUseCase(taskRepository);
 });
 
-final addTaskProvider = Provider<AddTaskUseCase>((ref) {
+final addTaskUseCaseProvider = Provider<AddTaskUseCase>((ref) {
   final repository = ref.watch(taskRepositoryProvider);
   return AddTaskUseCase(repository);
 });
