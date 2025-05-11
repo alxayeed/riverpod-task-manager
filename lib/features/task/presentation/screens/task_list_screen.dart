@@ -14,7 +14,10 @@ class TaskListScreen extends ConsumerWidget {
     final taskListAsyncValue = ref.watch(taskListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Task List')),
+      appBar: AppBar(
+          title: const Text('Task List'),
+          centerTitle: true,
+      ),
       body: taskListAsyncValue.when(
         data: (tasks) {
           if (tasks.isEmpty) {
@@ -38,6 +41,8 @@ class TaskListScreen extends ConsumerWidget {
         error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.pushNamed(context, '/add-task');
         },
