@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/task_entity.dart';
 import '../providers/add_task_provider.dart';
+import '../providers/task_list_provider.dart';
 import '../widgets/task_form_widget.dart';
 
 class AddTaskScreen extends ConsumerStatefulWidget {
   const AddTaskScreen({super.key});
 
   @override
-  _AddTaskScreenState createState() => _AddTaskScreenState();
+  ConsumerState createState() => _AddTaskScreenState();
 }
 
 class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
@@ -30,13 +31,14 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
       );
 
       await ref.read(addTaskProvider(task).future);
+      ref.invalidate(taskListProvider);
 
       if (!mounted) return;
       setState(() {
         _isSubmitting = false;
       });
 
-      Navigator.pop(context); // Navigate back to task list
+      Navigator.pop(context);
     }
   }
 
