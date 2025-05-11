@@ -32,12 +32,12 @@ final addTaskUseCaseProvider = Provider<AddTaskUseCase>((ref) {
   return AddTaskUseCase(repository);
 });
 
-final updateTaskProvider = Provider<UpdateTaskUseCase>((ref) {
+final updateTaskUseCaseProvider = Provider<UpdateTaskUseCase>((ref) {
   final repository = ref.watch(taskRepositoryProvider);
   return UpdateTaskUseCase(repository);
 });
 
-final deleteTaskProvider = Provider<DeleteTaskUseCase>((ref) {
+final deleteTaskUseCaseProvider = Provider<DeleteTaskUseCase>((ref) {
   final repository = ref.watch(taskRepositoryProvider);
   return DeleteTaskUseCase(repository);
 });
