@@ -22,13 +22,18 @@ class TaskListScreen extends ConsumerWidget {
           if (tasks.isEmpty) {
             return const EmptyDataWidget(message: 'No tasks available');
           }
-          return ListView.builder(
-            padding: const EdgeInsets.all(16.0),
-            itemCount: tasks.length,
-            itemBuilder: (context, index) {
-              final task = tasks[index];
-              return TaskItemWidget(task: task);
+          return RefreshIndicator(
+            onRefresh: () async {
+              final _ = await ref.refresh(taskListProvider.future);
             },
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: tasks.length,
+              itemBuilder: (context, index) {
+                final task = tasks[index];
+                return TaskItemWidget(task: task);
+              },
+            ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
