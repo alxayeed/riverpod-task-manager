@@ -14,9 +14,7 @@ class TaskListScreen extends ConsumerWidget {
     final taskListAsyncValue = ref.watch(taskListProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Task List'),
-      ),
+      appBar: AppBar(title: const Text('Task List')),
       body: taskListAsyncValue.when(
         data: (tasks) {
           if (tasks.isEmpty) {
@@ -37,9 +35,7 @@ class TaskListScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Center(
-          child: Text('Error: $error'),
-        ),
+        error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
