@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/task_entity.dart';
 import '../providers/delete_task_provider.dart';
 import '../providers/task_list_provider.dart';
+import '../providers/update_task_provider.dart';
 
 class TaskItemWidget extends ConsumerWidget {
   final TaskEntity task;
@@ -18,9 +19,7 @@ class TaskItemWidget extends ConsumerWidget {
         final shouldDelete = await _showDeleteConfirmation(context);
         if (shouldDelete) {
           await ref.read(deleteTaskProvider(task.id!).future);
-
           ref.invalidate(taskListProvider);
-
           return true;
         } else {
           return false;
@@ -40,18 +39,27 @@ class TaskItemWidget extends ConsumerWidget {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Text(task.description),
-          trailing: Icon(
-            task.isDone ? Icons.check_box : Icons.check_box_outline_blank,
-            color: task.isDone ? Colors.green : Colors.grey,
+          trailing: IconButton(
+            icon: Icon(
+              task.isDone ? Icons.check_box : Icons.check_box_outline_blank,
+              color: task.isDone ? Colors.green : Colors.grey,
+            ),
+            onPressed: () async {
+              final updatedTask = task.copyWith(isDone: !task.isDone);
+
+              final notifier = ref.read(updateTaskProvider.notifier);
+              await notifier.update(updatedTask);
+              ref.invalidate(taskListProvider);
+
+
+            },
           ),
-          onTap: () {
-            // Navigate to task detail screen (if implemented)
-          },
         ),
       ),
     );
   }
 
+  // Show a confirmation dialog for deletion
   Future<bool> _showDeleteConfirmation(BuildContext context) async {
     return await showDialog<bool>(
       context: context,
